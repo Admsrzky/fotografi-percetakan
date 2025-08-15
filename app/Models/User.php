@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable; // <-- Tambahkan baris ini
 use Filament\Models\Contracts\FilamentUser; // <-- INI PATH YANG BENARuse Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\TwoFactorAuthenticatable;
