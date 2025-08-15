@@ -91,6 +91,8 @@ class User extends Authenticatable
     }
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin';
+        // Logika ini mengizinkan akses jika ID panel adalah 'admin'
+        // DAN peran pengguna di database adalah 'admin'.
+        return $panel->getId() === 'admin' && $this->role === 'admin';
     }
 }
