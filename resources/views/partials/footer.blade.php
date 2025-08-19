@@ -18,15 +18,13 @@
                        Percetakan
                     </a>
                 </li>
-                <li><a href="portofolio.html" class="transition duration-300 hover:text-accent">Portofolio</a>
-                </li>
             </ul>
         </div>
         <div>
             <h4 class="mb-4 text-lg font-semibold text-white">Hubungi Kami</h4>
-            <p class="text-sm">Jl. Contoh No. 123, Cilegon, Banten, Indonesia</p>
-            <p class="text-sm">Telepon: +62 812-3456-7890</p>
-            <p class="text-sm">Email: info@studiokami.com</p>
+            <p class="text-sm">Jl. Luwung Sawo, Cilegon, Banten, Indonesia</p>
+            <p class="text-sm">Telepon: +62 896-7570-4877</p>
+            <p class="text-sm">Email: reproject@gmail.com</p>
         </div>
         <div>
             <h4 class="mb-4 text-lg font-semibold text-white">Ikuti Kami</h4>

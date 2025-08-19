@@ -38,14 +38,14 @@
                                 <svg class="flex-shrink-0 w-8 h-8 mt-1 mr-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7l9 6 9-6z"></path></svg>
                                 <div>
                                     <strong class="block text-gray-900">Email</strong>
-                                    <a href="mailto:info@namastudioanda.com" class="text-blue-600 hover:underline">info@reproject.com</a>
+                                    <a href="mailto:info@namastudioanda.com" class="text-blue-600 hover:underline">reproject@gmail.com</a>
                                 </div>
                             </p>
                             <p class="flex items-start">
                                 <svg class="flex-shrink-0 w-8 h-8 mt-1 mr-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <div>
                                     <strong class="block text-gray-900">Alamat Studio</strong>
-                                    Jl. Luwung Sawo No. 123, Kota Cilegon, Banten, 42411
+                                    Jl. Luwung Sawo, Kota Cilegon, Banten, 42411
                                 </div>
                             </p>
                             <p class="flex items-start">
@@ -64,21 +64,9 @@
                         <p class="mb-6 text-lg text-gray-700">Untuk kemudahan transaksi pemesanan layanan, Anda dapat melakukan pembayaran melalui rekening bank berikut. Mohon konfirmasi setelah transfer.</p>
                         <div class="p-8 space-y-6 text-lg text-gray-700 border border-blue-100 rounded-lg shadow-inner bg-blue-50">
                             <div class="pb-4 border-b border-blue-200">
-                                <p class="text-xl font-semibold text-gray-900">Bank BCA</p>
-                                <p><strong>Nomor Rekening:</strong> <span class="font-medium text-blue-700">1234 567 890</span></p>
+                                <p class="text-xl font-semibold text-gray-900">Bank BNI</p>
+                                <p><strong>Nomor Rekening:</strong> <span class="font-medium text-blue-700">847421903</span></p>
                                 <p><strong>Atas Nama:</strong> Reza Adya Pratama</p>
-                            </div>
-                            <div class="pb-4 border-b border-blue-200">
-                                <p class="text-xl font-semibold text-gray-900">Bank Mandiri</p>
-                                <p><strong>Nomor Rekening:</strong> <span class="font-medium text-blue-700">9876 543 210</span></p>
-                                <p><strong>Atas Nama:</strong> Reza Adya Pratama</p>
-                            </div>
-                            <div>
-                                <p class="mb-2 text-xl font-semibold text-gray-900">Metode Pembayaran Lainnya:</p>
-                                <ul class="ml-4 text-gray-700 list-disc list-inside">
-                                    <li>Pembayaran tunai langsung di studio</li>
-                                    <li>Pembayaran via QRIS (segera hadir)</li>
-                                </ul>
                             </div>
                         </div>
                         <p class="mt-8 text-base italic text-center text-gray-600">
