@@ -251,6 +251,11 @@ class PemesananResource extends Resource
                         })
                         ->requiresConfirmation(),
                 ]),
+                Tables\Actions\Action::make('download_invoice')
+                    ->label('Unduh Invoice')
+                    ->icon('heroicon-o-arrow-down-tray')->url(fn(Pemesanan $record) => route('filament.resources.pemesanan.download-invoice', ['record' => $record]))
+                    ->openUrlInNewTab()
+                    ->color('primary'),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

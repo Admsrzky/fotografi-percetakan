@@ -47,3 +47,6 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::get('/pemesanan/success', [FrontController::class, 'showSuccessPage'])->name('pemesanan.success');
     Route::get('/pemesanan/history', [FrontController::class, 'history'])->name('pemesanan.history');
 });
+
+Route::get('/pemesanan/{record}/invoice', [PemesananController::class, 'downloadInvoice'])
+    ->name('filament.resources.pemesanan.download-invoice');

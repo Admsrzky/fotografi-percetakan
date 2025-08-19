@@ -37,7 +37,7 @@
             color: #555;
             font-size: 14px;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 5px;
         }
         .report-info {
             text-align: center;
@@ -88,7 +88,7 @@
     <h1>Laporan Data Pemesanan</h1>
     <h2>Re-Project</h2>
     <div class="report-info">
-        <p>Tanggal Cetak: **{{ \Carbon\Carbon::now()->locale('id')->isoFormat('dddd, D MMMM YYYY HH:mm') }} WIB**</p>
+        <p>Periode: **{{ $periode }}**</p>
     </div>
 
     <table>

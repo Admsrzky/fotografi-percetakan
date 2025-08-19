@@ -90,6 +90,10 @@ class User extends Authenticatable implements FilamentUser
         // 'size=128' untuk ukuran gambar (piksel)
         return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&color=FFFFFF&background=random&size=128';
     }
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
     public function canAccessPanel(Panel $panel): bool
     {
         // Logika ini mengizinkan akses jika ID panel adalah 'admin'

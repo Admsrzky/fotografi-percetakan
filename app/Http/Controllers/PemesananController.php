@@ -6,6 +6,7 @@ use App\Models\Jadwal;
 use App\Models\Jasa;
 use App\Models\Paket;
 use App\Models\Pemesanan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -376,14 +377,32 @@ class PemesananController extends Controller
     // Metode untuk menampilkan invoice
     public function showInvoice(Pemesanan $pemesanan)
     {
-        // Pastikan pengguna yang login adalah pemilik pemesanan ini
-        if (Auth::id() !== $pemesanan->pengguna_id) { // Menggunakan 'pengguna_id'
-            abort(403, 'Anda tidak diizinkan untuk melihat invoice ini.');
+        // Izinkan jika pengguna yang login adalah admin ATAU pemilik pemesanan
+        if (Auth::user()->isAdmin() || Auth::id() === $pemesanan->pengguna_id) {
+            // Muat relasi yang diperlukan untuk invoice
+            $pemesanan->load(['pengguna', 'jasa', 'paket']);
+
+            return view('order.invoice', compact('pemesanan'));
         }
 
-        // Muat relasi yang diperlukan untuk invoice
-        $pemesanan->load(['pengguna', 'jasa', 'paket']);
+        // Jika tidak diizinkan, kembalikan error 403
+        abort(403, 'Anda tidak diizinkan untuk melihat invoice ini.');
+    }
 
-        return view('order.invoice', compact('pemesanan'));
+    public function downloadInvoice(Pemesanan $record)
+    {
+        // Tambahkan juga pemeriksaan untuk admin di sini
+        if (Auth::user()->isAdmin() || Auth::id() === $record->pengguna_id) {
+            if (!view()->exists('invoice', ['record' => $record])) {
+                abort(404, 'Invoice view not found.');
+            }
+
+            $pdf = Pdf::loadView('invoice', ['record' => $record]);
+
+            return $pdf->download('invoice-' . $record->id . '.pdf');
+        }
+
+        // Jika tidak diizinkan, kembalikan error 403
+        abort(403, 'Anda tidak diizinkan untuk mengunduh invoice ini.');
     }
 }

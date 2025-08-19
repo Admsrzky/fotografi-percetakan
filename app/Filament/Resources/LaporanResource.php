@@ -6,6 +6,7 @@ use App\Filament\Resources\LaporanResource\Pages;
 use App\Filament\Resources\LaporanResource\RelationManagers;
 use App\Models\Pemesanan; // The model for the report
 use Filament\Forms;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DatePicker; // For date range filter
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +16,6 @@ use Filament\Tables\Columns\TextColumn; // To display data in the table
 use Filament\Tables\Columns\IconColumn; // For boolean flags
 use Filament\Tables\Filters\Filter; // For custom filters like date range
 use Filament\Tables\Filters\SelectFilter; // For month and year filters
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Carbon\Carbon; // For generating month and year options
 use App\Filament\Exports\PemesananExporter; // Your custom exporter for Maatwebsite
@@ -55,7 +55,8 @@ class LaporanResource extends Resource
                 TextColumn::make('created_at') // Added 'Tanggal Pesanan' column
                     ->label('Tanggal Pesanan')
                     ->date('d M Y H:i')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('nama_pelanggan')
                     ->label('Nama Pelanggan')
                     ->sortable()
@@ -93,11 +94,6 @@ class LaporanResource extends Resource
                     ->trueIcon('heroicon-o-check-badge')
                     ->falseIcon('heroicon-o-x-mark')
                     ->sortable(),
-                TextColumn::make('created_at')
-                    ->label('Tanggal Pesan')
-                    ->dateTime('d M Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('jasa_kategori')
@@ -183,17 +179,34 @@ class LaporanResource extends Resource
                     ->color('danger')
                     ->icon('heroicon-o-document-arrow-down')
                     ->action(function (Tables\Actions\Action $action): \Illuminate\Http\Response|BinaryFileResponse {
-                        // Menggunakan getLivewire() untuk mendapatkan filtered query yang benar
-                        $query = $action->getTable()->getLivewire()->getFilteredTableQuery();
+                        $livewire = $action->getTable()->getLivewire();
+                        $query = $livewire->getFilteredTableQuery();
 
-                        // Ambil data pemesanan dengan relasi 'pengguna', 'jasa', 'paket'
-                        $pemesanans = $query->with(['pengguna', 'jasa', 'paket'])->get();
+                        // Ambil nilai filter dari state Livewire
+                        $filters = $livewire->tableFilters;
+                        $bulan = $filters['tanggal_acara_month']['value'] ?? null;
+                        $tahun = $filters['tanggal_acara_year']['value'] ?? null;
 
-                        // Hitung total harga dari query yang sama (sudah difilter)
-                        $totalHarga = $query->sum('total_harga');
+                        // 2. Buat string periode berdasarkan filter
+                        if ($bulan && $tahun) {
+                            $startDate = \Carbon\Carbon::createFromDate($tahun, $bulan, 1)->locale('id');
+                            $endDate = (clone $startDate)->endOfMonth();
+                            $periode = $startDate->isoFormat('DMMMMY') . ' - ' . $endDate->isoFormat('DMMMMY');
+                        } elseif ($bulan) {
+                            $periode = "Bulan " . Carbon::createFromDate(null, $bulan, 1)->locale('id')->monthName;
+                        } elseif ($tahun) {
+                            $periode = "Tahun " . $tahun;
+                        } else {
+                            $periode = 'Semua Data';
+                        }
 
-                        // Load view untuk PDF dan kirim data
-                        $pdf = Pdf::loadView('exports.pemesanan-pdf', compact('pemesanans', 'totalHarga'))
+                        // 3. Ambil data pemesanan dan total harga dari query yang sudah difilter
+                        // Kloning query sebelum mengeksekusi agar bisa digunakan lagi
+                        $pemesanans = (clone $query)->with(['pengguna', 'jasa', 'paket'])->get();
+                        $totalHarga = (clone $query)->sum('total_harga');
+
+                        // 4. Load view untuk PDF dan kirim data + periode
+                        $pdf = Pdf::loadView('exports.pemesanan-pdf', compact('pemesanans', 'totalHarga', 'periode'))
                             ->setPaper('a4', 'landscape');
 
                         // Simpan PDF ke file sementara
@@ -211,9 +224,7 @@ class LaporanResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array

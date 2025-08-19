@@ -89,13 +89,13 @@
 
                                     <span
                                         class="px-3 py-1 text-sm font-semibold rounded-full
-                                        @if ($pemesanan->status === 'pending') bg-yellow-100 text-yellow-800
-                                        @elseif ($pemesanan->status === 'confirmed') bg-blue-100 text-blue-800
-                                        @elseif ($pemesanan->status === 'completed') bg-green-100 text-green-800
-                                        @elseif ($pemesanan->status === 'cancelled') bg-red-100 text-red-800
-                                        @elseif ($pemesanan->status === 'dp') bg-purple-100 text-purple-800 @endif
+                                        @if ($pemesanan->status_pemesanan === 'pending') bg-yellow-100 text-yellow-800
+                                        @elseif ($pemesanan->status_pemesanan === 'confirmed') bg-blue-100 text-blue-800
+                                        @elseif ($pemesanan->status_pemesanan === 'completed') bg-green-100 text-green-800
+                                        @elseif ($pemesanan->status_pemesanan === 'cancelled') bg-red-100 text-red-800
+                                        @elseif ($pemesanan->status_pemesanan === 'dp') bg-purple-100 text-purple-800 @endif
                                     ">
-                                        {{ ucfirst($pemesanan->status) }}
+                                        {{ ucfirst($pemesanan->status_pemesanan) }}
                                     </span>
                                     <svg class="w-5 h-5 text-gray-600 transition-transform duration-300 transform arrow-icon"
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24"
