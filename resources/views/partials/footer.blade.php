@@ -22,9 +22,9 @@
         </div>
         <div>
             <h4 class="mb-4 text-lg font-semibold text-white">Hubungi Kami</h4>
-            <p class="text-sm">Jl. Luwung Sawo, Cilegon, Banten, Indonesia</p>
-            <p class="text-sm">Telepon: +62 896-7570-4877</p>
-            <p class="text-sm">Email: reproject@gmail.com</p>
+            <p class="text-sm">Link. Leuweung Sawo, Kelurahan Kotabumi, Kecamatan Purwakarta, Kota Cilegon - Banten.</p>
+            <p class="text-sm">Telepon: 0896-7570-4877</p>
+            <p class="text-sm">Email: officialre9@gmail.com</p>
         </div>
         <div>
             <h4 class="mb-4 text-lg font-semibold text-white">Ikuti Kami</h4>

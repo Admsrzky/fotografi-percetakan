@@ -174,7 +174,7 @@
             <button onclick="window.print()" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700">
                 Cetak Invoice
             </button>
-            <a href="{{ route('pemesanan.history') }}" class="px-4 py-2 ml-4 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400">
+            <a href="{{ route('history.pemesanan') }}" class="px-4 py-2 ml-4 font-bold text-gray-800 bg-gray-300 rounded hover:bg-gray-400">
                 Kembali ke Riwayat
             </a>
         </div>

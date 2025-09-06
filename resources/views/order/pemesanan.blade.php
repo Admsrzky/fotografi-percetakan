@@ -1,6 +1,6 @@
-@extends('layouts.master') {{-- Tetap extend master layout --}}
+@extends('layouts.master')
 
-@section('title', 'Pemesanan Jasa - Studio Foto & Cetak') {{-- Set judul halaman spesifik --}}
+@section('title', 'Pemesanan Jasa - Studio Foto & Cetak')
 
 @section('content')
     <section class="py-16 bg-gray-50">
@@ -56,7 +56,7 @@
                 @csrf {{-- CSRF Token untuk keamanan Laravel --}}
 
                 <div class="pb-8 mb-10 border-b border-gray-200">
-                    <h3 class="flex items-center mb-6 text-2xl font-semibold text-accent">
+                    <h3 id="tanggal_section_title" class="flex items-center mb-6 text-2xl font-semibold text-accent">
                         <span
                             class="flex items-center justify-center w-8 h-8 mr-3 text-lg font-bold text-white rounded-full bg-accent">1</span>
                         Pilih Tanggal Acara
@@ -66,7 +66,6 @@
 
                     <div id="calendar-container"
                         class="flex justify-center w-full p-6 border border-gray-200 rounded-lg shadow-inner bg-gray-50">
-                        {{-- Mengubah ID dan Name input menjadi 'tanggal_acara' --}}
                         <input type="text" id="tanggal_acara_calendar" class="hidden">
                         <div id="flatpickr-calendar-display"></div>
                     </div>
@@ -79,11 +78,9 @@
                     <div class="mt-6">
                         <label for="tanggal_acara" class="block mb-2 text-sm font-semibold text-gray-800">Tanggal
                             Acara Pilihan Anda <span class="text-red-500">*</span></label>
-                        {{-- Mengubah ID dan Name input menjadi 'tanggal_acara' --}}
                         <input type="text" id="tanggal_acara" name="tanggal_acara" class="bg-gray-200 form-input-elegent"
                             placeholder="Tanggal akan otomatis terisi dari kalender" readonly required
                             value="{{ old('tanggal_acara') }}">
-                        {{-- Input hidden dihapus karena input utama sudah mengirimkan nilai --}}
                         @error('tanggal_acara')
                             <p class="mt-1 text-xs italic text-red-500">{{ $message }}</p>
                         @enderror
@@ -105,7 +102,6 @@
                             <select id="jenis_jasa" name="jenis_jasa" class="form-input-elegent" required>
                                 <option value="" disabled {{ old('jenis_jasa') == '' ? 'selected' : '' }}>-- Pilih
                                     Jenis Jasa --</option>
-                                {{-- Menggunakan data dari controller untuk opsi --}}
                                 @foreach ($jasaTipes as $tipe => $label)
                                     <option value="{{ $tipe }}" {{ old('jenis_jasa') == $tipe ? 'selected' : '' }}>
                                         {{ $label }}</option>
@@ -122,7 +118,6 @@
                             <select id="paket_pilihan" name="paket_pilihan" class="form-input-elegent" required>
                                 <option value="" disabled {{ old('paket_pilihan') == '' ? 'selected' : '' }}>-- Pilih
                                     Paket/Layanan --</option>
-                                {{-- Jika ada old value, kita coba isi ulang dengan opsi yang relevan --}}
                                 @if (old('jenis_jasa') && old('paket_pilihan'))
                                     @php
                                         $oldJasaIds = \App\Models\Jasa::where('tipe_jasa', old('jenis_jasa'))->pluck(
@@ -165,7 +160,6 @@
                     </div>
 
                     {{-- Kuantitas: Hanya tampil untuk percetakan --}}
-                    {{-- Ini tetap di sini karena hanya untuk percetakan --}}
                     <div class="mt-6" id="quantity_wrapper" class="hidden">
                         <label for="quantity" class="block mb-2 text-sm font-semibold text-gray-800">Kuantitas <span class="text-red-500">*</span></label>
                         <input type="number" id="quantity" name="quantity" class="form-input-elegent"
@@ -411,6 +405,7 @@
 
 
             const jenisJasaSelect = document.getElementById('jenis_jasa');
+            const tanggalSectionTitle = document.getElementById('tanggal_section_title');
             const paketPilihanSelect = document.getElementById('paket_pilihan');
             const kategoriPaketDisplay = document.getElementById('kategori_paket_display');
             const kategoriPaketInput = document.getElementById('kategori_paket');
@@ -462,6 +457,15 @@
                     lokasiLabel.innerHTML = 'Lokasi Acara <span class="text-red-500">*</span>';
                     lokasiAcaraInput.placeholder = 'Contoh: Gedung Pernikahan Harmoni, Jakarta';
                     lokasiHelpText.textContent = 'Isi lokasi acara untuk fotografi/videografi.';
+                }
+            }
+
+            // New function to update the date section title
+            function updateTanggalSectionTitle(selectedJasaTipe) {
+                if (selectedJasaTipe === 'percetakan') {
+                    tanggalSectionTitle.innerHTML = `<span class="flex items-center justify-center w-8 h-8 mr-3 text-lg font-bold text-white rounded-full bg-accent">1</span> Pilih Tanggal Jadi`;
+                } else {
+                    tanggalSectionTitle.innerHTML = `<span class="flex items-center justify-center w-8 h-8 mr-3 text-lg font-bold text-white rounded-full bg-accent">1</span> Pilih Tanggal Acara`;
                 }
             }
 
@@ -525,6 +529,7 @@
                 hiddenHargaPaket.value = 0; // Reset harga paket
                 updatePrices(); // Update prices after resetting
                 updateLokasiField(selectedJasaTipe); // Update the lokasi field label/placeholder
+                updateTanggalSectionTitle(selectedJasaTipe); // Update the date section title
 
                 // Kuantitas: Hanya tampil untuk percetakan
                 if (selectedJasaTipe === 'percetakan') {
@@ -678,8 +683,9 @@
             } else {
                 // If no initial jasa type, ensure prices are updated with default values
                 updatePrices();
-                // Also update the lokasi field in case no initial jasa type is set (e.g., fresh load)
-                updateLokasiField(''); // Pass empty string to default to "Lokasi Acara"
+                // Also update the lokasi field and title in case no initial jasa type is set (e.g., fresh load)
+                updateLokasiField('');
+                updateTanggalSectionTitle('');
             }
 
             // Set initial category display if available (from old input or controller or URL)
@@ -695,8 +701,9 @@
 
             // Initial call to updatePrices to set correct state on page load
             updatePrices();
-            // Ensure location field is updated on initial load based on current selected value (if any)
+            // Ensure location field and title are updated on initial load based on current selected value (if any)
             updateLokasiField(jenisJasaSelect.value);
+            updateTanggalSectionTitle(jenisJasaSelect.value);
         });
     </script>
 @endpush

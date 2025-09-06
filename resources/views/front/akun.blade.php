@@ -7,46 +7,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.3/dist/cdn.min.js"></script>
     <style>
-        /* Anda bisa menambahkan CSS kustom di sini jika diperlukan */
-        /* Pastikan ada padding di bagian bawah body agar konten tidak tertutup nav bar */
         body {
-            padding-bottom: 4rem; /* Sesuaikan dengan tinggi nav bar (h-16 = 4rem) */
+            padding-bottom: 4rem;
         }
         .active-nav-link {
-            color: #1a202c; /* Warna teks untuk link aktif */
+            color: #1a202c;
         }
     </style>
 </head>
 <body class="bg-gray-100">
 
-    {{-- KONTEN UTAMA DARI AKUN.BLADE.PHP --}}
     <div class="container px-4 pb-20 mx-auto">
         {{-- Profile Section --}}
-        <div class="py-8">
+        <div class="pt-4">
             @auth
-                {{-- State: User is logged in --}}
                 <a href="#" class="w-full">
-                    <div class="flex items-center p-6 space-x-4 bg-yellow-100 rounded-lg shadow-md">
-                        <div class="flex-shrink-0 w-16 h-16 bg-yellow-300 rounded-full">
+                    <div class="flex items-center p-4 space-x-4 bg-white rounded-lg shadow-sm">
+                        <div class="flex-shrink-0 w-12 h-12 bg-white rounded-full">
                             <img src="{{ Auth::user()->profile_photo_url ?? asset('assets/images/default-avatar.png') }}"
                                 alt="{{ Auth::user()->name }}"
                                 class="object-cover w-full h-full rounded-full">
                         </div>
                         <div>
-                            <h1 class="text-2xl font-semibold text-gray-800">{{ Auth::user()->name }}</h1>
+                            <h1 class="text-xl font-semibold text-gray-800">Apa kabar, {{ Auth::user()->name }}</h1>
                             <p class="text-sm text-gray-600">{{ Auth::user()->email }}</p>
                         </div>
                     </div>
                 </a>
             @else
-                {{-- State: User is not logged in --}}
                 <button id="openModalBtn" class="w-full">
-                    <div class="flex items-center p-6 space-x-4 bg-yellow-100 rounded-lg shadow-md">
-                        <div class="flex-shrink-0 w-16 h-16 bg-yellow-300 rounded-full">
-                            {{-- Placeholder for profile image --}}
+                    <div class="flex items-center p-4 space-x-4 bg-yellow-100 rounded-lg shadow-sm">
+                        <div class="flex-shrink-0 w-12 h-12 bg-yellow-300 rounded-full">
                         </div>
                         <div>
-                            <h1 class="text-2xl font-semibold text-gray-800">Apa kabar</h1>
+                            <h1 class="text-xl font-semibold text-gray-800">Apa kabar</h1>
                             <p class="text-sm text-gray-600">Kamu belum masuk</p>
                         </div>
                     </div>
@@ -54,43 +48,94 @@
             @endauth
         </div>
 
+        {{-- Total Pesanan Section --}}
+        @auth
+        <div class="mt-4">
+            <div class="flex items-center justify-between gap-2 md:grid md:grid-cols-3">
+
+                {{-- Card: Menunggu (Pending) --}}
+                <a href="{{ route('history', ['status' => 'pending']) }}" class="flex-1 p-3 bg-white rounded-lg shadow-sm">
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center w-8 h-8 text-yellow-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-1 text-center">
+                            <h3 class="text-xl font-bold text-gray-800">{{ $menungguCount }}</h3>
+                            <p class="text-xs text-gray-600">Menunggu</p>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Card: Diproses (Proses) --}}
+                <a href="{{ route('history', ['status' => 'confirmed']) }}" class="flex-1 p-3 bg-white rounded-lg shadow-sm">
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center w-8 h-8 text-blue-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m-5 3h4a2 2 0 002-2V7a2 2 0 00-2-2h-4a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-1 text-center">
+                            <h3 class="text-xl font-bold text-gray-800">{{ $diprosesCount }}</h3>
+                            <p class="text-xs text-gray-600">Diproses</p>
+                        </div>
+                    </div>
+                </a>
+
+                {{-- Card: Selesai (Completed) --}}
+                <a href="{{ route('history', ['status' => 'completed']) }}" class="flex-1 p-3 bg-white rounded-lg shadow-sm">
+                    <div class="flex flex-col items-center">
+                        <div class="flex items-center justify-center w-8 h-8 text-green-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div class="mt-1 text-center">
+                            <h3 class="text-xl font-bold text-gray-800">{{ $selesaiCount }}</h3>
+                            <p class="text-xs text-gray-600">Selesai</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        @endauth
+
         {{-- Menu List Section --}}
-        <div class="mt-8 space-y-2">
+        <div class="mt-4 space-y-1">
+            <div class="p-4 font-bold text-gray-700 bg-white rounded-lg shadow-sm">
+                Layanan
+            </div>
+
             <a href="{{ route('history') }}" class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
                 <div class="flex items-center space-x-4">
-                    {{-- SVG icon for Order History --}}
                     <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                     </svg>
                     <span class="font-medium text-gray-700">Riwayat Pesanan</span>
                 </div>
-                {{-- Chevron icon --}}
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
             </a>
             <a href="{{ route('kontakinfo') }}" class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
                 <div class="flex items-center space-x-4">
-                    {{-- SVG icon for Contact Info --}}
                     <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8m-2 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7l9 6 9-6z"></path>
                     </svg>
                     <span class="font-medium text-gray-700">Informasi Kontak</span>
                 </div>
-                {{-- Chevron icon --}}
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
             </a>
             <a href="{{ route('settings') }}" class="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
                 <div class="flex items-center space-x-4">
-                    {{-- SVG icon for Settings --}}
                     <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.18-.329.443-.635.75-.92l1.172-1.171a.999.999 0 011.414 0l1.172 1.171c.307.285.57.591.75.92m-5.414 5.414a2 2 0 100 2.828 2 2 0 000-2.828zM12 17h.01M16 11h.01M10 11h.01M12 15a4 4 0 100-8 4 4 0 000 8z"></path>
                     </svg>
                     <span class="font-medium text-gray-700">Pengaturan</span>
                 </div>
-                {{-- Chevron icon --}}
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                 </svg>
@@ -98,45 +143,35 @@
         </div>
 
         {{-- Version Info --}}
-        <p class="mt-8 text-xs text-center text-gray-400">Versi v2.15.0.1_8077f80_250820_2.15.0.1</p>
+        <p class="mt-8 text-xs text-center text-gray-400">Versi v1.0.0</p>
 
         {{-- Login/Register Modal (Only shown when user is not logged in) --}}
         @guest
         <div id="loginModal" class="fixed inset-0 z-50 items-end justify-center hidden bg-black bg-opacity-50 sm:flex sm:items-center">
             <div class="relative w-full max-w-sm p-4 mx-auto bg-white rounded-t-xl sm:rounded-lg">
-                {{-- Modal Header --}}
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-semibold text-gray-800">Masuk/Daftar</h2>
-                    {{-- Discount Image --}}
                     <div class="relative w-24 h-16">
                     </div>
                 </div>
                 <p class="mt-1 text-sm text-gray-600">Masuk untuk memesan jasa ini</p>
-
-                {{-- Close button --}}
                 <button id="closeModalBtn" class="absolute text-gray-500 top-4 right-4 hover:text-gray-700">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
-
                 <div class="mt-6 space-y-4">
-                    {{-- Login Button --}}
                     <a href="{{ route('login') }}">
                         <button class="flex items-center justify-center w-full px-4 py-3 text-base font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600">
                             Login
                         </button>
                     </a>
-
-                    {{-- Register Button--}}
                     <a href="{{ route('register') }}">
                         <button class="flex items-center justify-center w-full px-4 py-3 text-base font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
                             Register
                         </button>
                     </a>
                 </div>
-
-                {{-- Privacy Policy and Terms --}}
                 <p class="mt-4 text-xs text-center text-gray-400">
                     Dengan melanjutkan proses ini, anda menyetujui
                     <a href="#" class="text-blue-500 hover:underline">Perjanjian Pengguna</a>
@@ -153,20 +188,15 @@
             const openModalBtn = document.getElementById('openModalBtn');
             const closeModalBtn = document.getElementById('closeModalBtn');
             const loginModal = document.getElementById('loginModal');
-
-            // Only add listeners if the elements exist (i.e., user is a guest)
             if (openModalBtn && closeModalBtn && loginModal) {
                 openModalBtn.addEventListener('click', function () {
                     loginModal.classList.remove('hidden');
                     loginModal.classList.add('flex');
                 });
-
                 closeModalBtn.addEventListener('click', function () {
                     loginModal.classList.remove('flex');
                     loginModal.classList.add('hidden');
                 });
-
-                // Close modal when clicking outside of it
                 loginModal.addEventListener('click', function (e) {
                     if (e.target === loginModal) {
                         loginModal.classList.remove('flex');

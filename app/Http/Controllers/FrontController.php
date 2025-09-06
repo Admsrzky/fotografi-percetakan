@@ -103,7 +103,32 @@ class FrontController extends Controller
      */
     public function akun()
     {
-        return view('front.akun');
+        if (Auth::check()) {
+            $userId = Auth::id();
+
+            // Hitung jumlah pesanan untuk setiap status
+            $menungguCount = Pemesanan::where('pengguna_id', $userId)
+                ->where('status_pemesanan', 'menunggu')
+                ->count();
+
+            $diprosesCount = Pemesanan::where('pengguna_id', $userId)
+                ->where('status_pemesanan', 'diproses')
+                ->count();
+
+            $selesaiCount = Pemesanan::where('pengguna_id', $userId)
+                ->where('status_pemesanan', 'selesai')
+                ->count();
+
+            // Kirim semua variabel ke tampilan
+            return view('front.akun', compact('menungguCount', 'diprosesCount', 'selesaiCount'));
+        }
+
+        // Jika pengguna tidak login, kirim data dengan nilai 0 atau data kosong
+        return view('front.akun', [
+            'menungguCount' => 0,
+            'diprosesCount' => 0,
+            'selesaiCount' => 0
+        ]);
     }
 
     /**
