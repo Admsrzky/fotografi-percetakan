@@ -5,63 +5,89 @@ namespace App\Http\Controllers;
 use App\Models\Jasa;
 use App\Models\Paket;
 use App\Models\Pemesanan;
-use App\Models\Portofolio; // Import model Portofolio
+use App\Models\Portofolio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class FrontController extends Controller
 {
+    /**
+     * Display the homepage.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $jasas = Jasa::where('aktif', true)->get();
-
         $portofolios = Portofolio::where('unggulan', true)->get();
 
         return view('welcome', compact('jasas', 'portofolios'));
     }
 
+    /**
+     * Display the list of portfolios.
+     *
+     * @return \Illuminate\View\View
+     */
     public function listPortofolios()
     {
         $allPortofolios = Portofolio::orderBy('tahun', 'asc')->get();
-
-        $portofoliosGrouped = Portofolio::orderBy('tahun', 'asc')
-            ->get()
-            ->groupBy('kategori');
-
-
+        $portofoliosGrouped = $allPortofolios->groupBy('kategori');
         $categoriesFilter = $portofoliosGrouped->keys()->sort()->values()->all();
-
 
         return view('front.portofolio', compact('allPortofolios', 'portofoliosGrouped', 'categoriesFilter'));
     }
 
+    /**
+     * Display the detail of a single portfolio.
+     *
+     * @param  int  $id
+     * @return \Illuminate\View\View
+     */
     public function detailPortofolio($id)
     {
         $portofolio = Portofolio::findOrFail($id);
         return view('front.details-portofolio', compact('portofolio'));
     }
 
+    /**
+     * Display the "About Us" page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function TentangKami()
     {
         return view('front.about');
     }
 
+    /**
+     * Display the "Contact Us" page.
+     *
+     * @return \Illuminate\View\View
+     */
     public function Kontak()
     {
         return view('front.contact');
     }
+    public function Informasikontak()
+    {
+        return view('front.kontak');
+    }
 
+    /**
+     * Display the order success page.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
+     */
     public function showSuccessPage(Request $request)
     {
-        // Ambil data dari query parameters
         $pemesananId = $request->query('pemesanan_id');
         $totalHarga = $request->query('total_harga');
         $dpAmount = $request->query('dp_amount');
         $remainingPayment = $request->query('remaining_payment');
         $kategori = $request->query('kategori');
 
-        // Opsional: Ambil objek Pemesanan dari database jika Anda butuh lebih banyak detail
         $pemesanan = null;
         if ($pemesananId) {
             $pemesanan = Pemesanan::find($pemesananId);
@@ -70,20 +96,61 @@ class FrontController extends Controller
         return view('order.pemesanan-success', compact('pemesanan', 'totalHarga', 'dpAmount', 'remainingPayment', 'kategori'));
     }
 
-    // Metode untuk menampilkan riwayat pemesanan
+    /**
+     * Display the user account page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function akun()
+    {
+        return view('front.akun');
+    }
+
+    /**
+     * Display the user settings page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function settings()
+    {
+        // Add any necessary logic to prepare data for the settings page here.
+        // For now, it just returns the view.
+        return view('front.settings');
+    }
+
     public function history()
     {
-        // Pastikan hanya pengguna yang login yang bisa melihat riwayatnya
+        // Ensures only logged-in users can view their order history
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Silakan login untuk melihat riwayat pemesanan.');
         }
 
-        $user_id_logged_in = Auth::id();
-        $pemesanans = Pemesanan::where('pengguna_id', $user_id_logged_in) // Menggunakan 'pengguna_id'
-            ->with(['pengguna', 'jasa', 'paket']) // Muat relasi 'pengguna', 'jasa', dan 'paket'
-            ->latest() // Urutkan dari yang terbaru
-            ->paginate(10); // Tambahkan pagination
+        $pemesanans = Pemesanan::where('pengguna_id', Auth::id())
+            ->with(['pengguna', 'jasa', 'paket'])
+            ->latest()
+            ->paginate(10);
 
         return view('order.history', compact('pemesanans'));
+    }
+
+
+    /**
+     * Display the user's order history page.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function riwayatPemesanan()
+    {
+        // Ensures only logged-in users can view their order history
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Silakan login untuk melihat riwayat pemesanan.');
+        }
+
+        $pemesanans = Pemesanan::where('pengguna_id', Auth::id())
+            ->with(['pengguna', 'jasa', 'paket'])
+            ->latest()
+            ->paginate(10);
+
+        return view('front.riwayat-pemesanan', compact('pemesanans'));
     }
 }

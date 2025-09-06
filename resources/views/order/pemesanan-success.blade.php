@@ -41,7 +41,7 @@
                         Kembali ke Beranda
                     </a>
                     {{-- Tambahkan link ke riwayat pemesanan --}}
-                    <a href="{{ route('pemesanan.history') }}"
+                    <a href="{{ route('history.pemesanan') }}"
                         class="inline-block px-8 py-3 font-semibold transition duration-300 border rounded-full shadow-md text-accent border-accent hover:bg-accent hover:text-white">
                         Lihat Riwayat Pemesanan
                     </a>

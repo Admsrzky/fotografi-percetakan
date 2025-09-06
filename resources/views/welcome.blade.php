@@ -4,14 +4,20 @@
 
 @section('content')
     {{-- Bagian Hero Section --}}
-    <section class="relative h-[600px] md:h-[750px] flex items-center justify-center text-center text-white overflow-hidden">
+    <section
+        class="relative flex items-center justify-center text-center text-white overflow-hidden
+            h-[256px] md:h-[320px] max-w-7xl mx-auto
+            lg:h-[600px] lg:mx-0 lg:max-w-none lg:rounded-none">
         <img src="{{ asset('assets/images/carousel1.jpg') }}" alt="Hero Background"
-            class="absolute inset-0 object-cover w-full h-full opacity-80">
+            class="absolute inset-0 object-contain w-full h-full lg:object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
         <div class="relative z-10 p-4">
-            <h1 class="mb-3 text-4xl font-bold text-white md:text-5xl drop-shadow-lg">Abadikan Moment Berharga dan Harga Terjaga</h1>
-            <p class="text-lg md:text-xl opacity-90 drop-shadow-md">Lihatlah harga dan karya yang telah kami abadikan dengan
-                passion dan profesionalisme.</p>
+            <h1 class="mb-2 text-2xl font-bold text-white md:text-3xl drop-shadow-lg lg:text-5xl">
+                Abadikan Moment Berharga dan Harga Terjaga
+            </h1>
+            <p class="text-sm md:text-base opacity-90 drop-shadow-md lg:text-xl">
+                Lihatlah harga dan karya yang telah kami abadikan dengan passion dan profesionalisme.
+            </p>
         </div>
     </section>
 

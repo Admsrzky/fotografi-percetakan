@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [FrontController::class, 'index'])->name('home');
+Route::get('/akun', [FrontController::class, 'akun'])->name('akun');
 
 Route::get('/portofolio', [FrontController::class, 'listPortofolios'])->name('portofolio.index');
 Route::get('/portofolio/{id}', [FrontController::class, 'detailPortofolio'])->name('portofolio.show'); // Untuk detail portofolio (jika diperlukan)
@@ -45,8 +46,18 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified',
     Route::post('/pemesanan/{pemesanan}/upload-pelunasan', [PemesananController::class, 'uploadPelunasan'])->name('pemesanan.upload_pelunasan');
     Route::get('/pemesanan/{pemesanan}/invoice', [PemesananController::class, 'showInvoice'])->name('pemesanan.invoice'); // Tambahkan ini
     Route::get('/pemesanan/success', [FrontController::class, 'showSuccessPage'])->name('pemesanan.success');
-    Route::get('/pemesanan/history', [FrontController::class, 'history'])->name('pemesanan.history');
+    Route::get('/pemesanan/history', [FrontController::class, 'history'])->name('history.pemesanan');
 });
 
 Route::get('/pemesanan/{record}/invoice', [PemesananController::class, 'downloadInvoice'])
     ->name('filament.resources.pemesanan.download-invoice');
+
+
+// Route untuk halaman Riwayat Pemesanan
+Route::middleware(['auth'])->group(function () {
+    Route::get('/akun', [FrontController::class, 'akun'])->name('akun');
+    Route::get('/pengaturan', [FrontController::class, 'settings'])->name('settings');
+    Route::get('/informasi', [FrontController::class, 'Informasikontak'])->name('kontakinfo');
+    Route::get('/riwayat-pemesanan', [FrontController::class, 'riwayatPemesanan'])->name('history');
+    Route::get('/pemesanan/{id}/invoice', [FrontController::class, 'showInvoice'])->name('pemesanan.invoice');
+});

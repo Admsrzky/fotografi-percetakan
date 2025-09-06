@@ -31,7 +31,7 @@
                                 <svg class="flex-shrink-0 w-8 h-8 mt-1 mr-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 00.959.69L12 7l-1.683 1.683a2 2 0 00-.593 1.157l-.887 2.126a1.25 1.25 0 001.077 1.614l2.126-.887a2 2 0 001.157-.593L17 12l4-2.583V17a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
                                 <div>
                                     <strong class="block text-gray-900">Telepon & WhatsApp</strong>
-                                    <a href="tel:+6281234567890" class="text-blue-600 hover:underline">0896-7570-4877 / re project</a>
+                                    <a href="tel:+6281234567890" class="text-blue-600 hover:underline">089521003170 / re project</a>
                                 </div>
                             </p>
                             <p class="flex items-start">

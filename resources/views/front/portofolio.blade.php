@@ -4,14 +4,21 @@
 
 @section('content')
 
-    <section class="relative flex items-center justify-center overflow-hidden text-center text-white h-96">
-        <img src="{{ asset('assets/images/carousel1.jpg') }}" alt="Portfolio Hero"
-            class="absolute inset-0 object-cover w-full h-full opacity-80">
+    <section
+        class="relative flex items-center justify-center text-center text-white overflow-hidden
+            h-[256px] md:h-[320px] max-w-7xl mx-auto
+            lg:h-[600px] lg:mx-0 lg:max-w-none lg:rounded-none">
+        <img src="{{ asset('assets/images/carousel1.jpg') }}" alt="Hero Background"
+            class="absolute inset-0 object-contain w-full h-full lg:object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
         <div class="relative z-10 p-4">
-            <h1 class="mb-3 text-4xl font-bold text-white md:text-5xl drop-shadow-lg">Koleksi Terbaik Kami</h1>
-            <p class="text-lg md:text-xl opacity-90 drop-shadow-md">Lihatlah hasil karya yang telah kami abadikan dengan
-                passion dan profesionalisme.</p>
+            <h1 class="mb-2 text-2xl font-bold text-white md:text-3xl drop-shadow-lg lg:text-5xl">
+                Koleksi Terbaik Kami
+            </h1>
+            <p class="text-sm md:text-base opacity-90 drop-shadow-md lg:text-xl">
+                Lihatlah hasil karya yang telah kami abadikan dengan
+                passion dan profesionalisme.
+            </p>
         </div>
     </section>
 
