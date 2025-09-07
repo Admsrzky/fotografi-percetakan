@@ -10,6 +10,7 @@ class Paket extends Model
 
     protected $fillable = [
         'jasa_id',
+        'foto_paket',
         'nama_paket',
         'deskripsi_paket',
         'harga_paket',

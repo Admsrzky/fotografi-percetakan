@@ -6,24 +6,26 @@ use App\Filament\Resources\PaketResource\Pages;
 use App\Filament\Resources\PaketResource\RelationManagers;
 use App\Models\Paket;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get; // Import Get helper
+use Filament\Forms\Set; // Import Set helper
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\RichEditor;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Forms\Get; // Import Get helper
-use Filament\Forms\Set; // Import Set helper
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection; // Import Collection for options
 
 
@@ -102,6 +104,11 @@ class PaketResource extends Resource
                                     ->prefix('Rp')
                                     ->required()
                                     ->placeholder('Harga Paket'),
+                                FileUpload::make('foto_paket')
+                                    ->image()
+                                    ->directory('foto-paket')
+                                    ->label('Foto Paket')
+                                    ->nullable(),
 
                                 Textarea::make('deskripsi_paket')
                                     ->nullable()
@@ -153,6 +160,11 @@ class PaketResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('foto_paket')
+                    ->label('Foto')
+                    ->circular()
+                    ->height(50)
+                    ->width(50),
                 TextColumn::make('nama_paket')
                     ->sortable()
                     ->searchable(),
