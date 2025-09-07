@@ -30,7 +30,7 @@
                             @endforeach
                         </div>
                     @else
-                        <p class="mt-8 text-lg text-gray-500">Tidak ada gambar galeri tambahan.</p>
+                        <p class="mt-2 text-lg text-gray-500"></p>
                     @endif
                 </div>
 
