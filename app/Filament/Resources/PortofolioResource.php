@@ -35,8 +35,8 @@ class PortofolioResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationGroup = 'Produk & Jasa Management'; // Mengganti 'Settings' agar konsisten
-    protected static ?string $navigationLabel = 'Portofolio';
-    protected static ?string $pluralModelLabel = 'Portofolio';
+    protected static ?string $navigationLabel = 'Data Portofolio';
+    protected static ?string $pluralModelLabel = 'Data Portofolio';
 
 
     public static function form(Form $form): Form

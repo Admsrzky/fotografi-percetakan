@@ -37,8 +37,9 @@ class PaketResource extends Resource
 
     protected static ?string $navigationGroup = 'Produk & Jasa Management';
 
-    protected static ?string $navigationLabel = 'Paket';
-    protected static ?string $pluralModelLabel = 'Paket';
+    protected static ?string $navigationLabel = 'Data Paket';
+
+    protected static ?string $pluralModelLabel = 'Data Paket';
 
 
     public static function form(Form $form): Form

@@ -30,9 +30,9 @@ class JasaResource extends Resource
 
     protected static ?string $navigationGroup = 'Produk & Jasa Management';
 
-    protected static ?string $navigationLabel = 'Jasa';
+    protected static ?string $navigationLabel = 'Data Jasa';
 
-    protected static ?string $pluralModelLabel = 'Jasa';
+    protected static ?string $pluralModelLabel = 'Data Jasa';
 
     public static function form(Form $form): Form
     {
